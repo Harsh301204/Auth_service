@@ -23,28 +23,50 @@ class UserService {
 
     }
 
-    async SignIn(email , PlainPassword) {
+    async SignIn(email, PlainPassword) {
         try {
-            const user =  await this.userRepository.GetByEmail(email)
-            const checkPassword =  this.checkPassword(PlainPassword , user.Password)
+            const user = await this.userRepository.GetByEmail(email)
+            const checkPassword = this.checkPassword(PlainPassword, user.Password)
 
-            if(!checkPassword) {
+            if (!checkPassword) {
                 console.log("Password doesn't match")
-                throw ({error : "Incorrect Password"})
+                throw ({ error: "Incorrect Password" })
             }
 
-            const newJWT =  this.GenerateToken({Email : user.Email , id : user.id})
+            const newJWT = this.GenerateToken({ Email: user.Email, id: user.id })
             return newJWT
 
 
 
         } catch (error) {
             console.log("Something went wrong while signing in")
-            throw(error)
+            throw (error)
         }
     }
 
-    
+    async isAuthenticated(token) {
+        try {
+            const response = this.VerifyToken(token)
+            if (!response) {
+                throw { error: "invalid token" }
+            }
+
+            const user = this.userRepository.GetById(response.id)
+            if(!user) {
+                throw { error : "no user with corresponding token exists"}
+            }
+
+            return user.id
+
+
+
+        } catch (error) {
+            console.log("Something went wrong while doing authentication")
+            throw (error)
+        }
+    }
+
+
     // async GetById(userId) {
     //     try {
     //         const user = await this.userRepository.GetById(userId)
@@ -54,32 +76,32 @@ class UserService {
     //     }
     // }
 
-   GenerateToken(user) {
+    GenerateToken(user) {
         try {
-            const result = JWT.sign(user , JWT_KEY , { expiresIn: '1h'}) 
+            const result = JWT.sign(user, JWT_KEY, { expiresIn: '1h' })
             return result
         } catch (error) {
             console.log("Something went wrong while generating the token")
-            throw(error)
+            throw (error)
         }
     }
 
-     VerifyToken(token){
+    VerifyToken(token) {
         try {
-            const response =  JWT.verify(token, JWT_KEY)
+            const response = JWT.verify(token, JWT_KEY)
             return response
         } catch (error) {
             console.log("Something went wrong while verifying the token")
-            throw(error)
+            throw (error)
         }
     }
 
-    checkPassword(userInputPlainPassword , encryptedPassword){
+    checkPassword(userInputPlainPassword, encryptedPassword) {
         try {
-            return bcrpyt.compareSync(userInputPlainPassword , encryptedPassword)
+            return bcrpyt.compareSync(userInputPlainPassword, encryptedPassword)
         } catch (error) {
             console.log("something went wrong in password comparision")
-            throw(error)
+            throw (error)
         }
     }
 }
