@@ -3,7 +3,7 @@ const bcrpyt = require('bcrypt')
 
 const UserRepository = require('../repository/User-repo')
 const { JWT_KEY } = require('../config/ServerConfig')
-const { decrypt } = require('dotenv')
+// const { decrypt } = require('dotenv')
 
 
 class UserService {
@@ -22,6 +22,29 @@ class UserService {
         }
 
     }
+
+    async SignIn(email , PlainPassword) {
+        try {
+            const user =  await this.userRepository.GetByEmail(email)
+            const checkPassword =  this.checkPassword(PlainPassword , user.Password)
+
+            if(!checkPassword) {
+                console.log("Password doesn't match")
+                throw ({error : "Incorrect Password"})
+            }
+
+            const newJWT =  this.GenerateToken({Email : user.Email , id : user.id})
+            return newJWT
+
+
+
+        } catch (error) {
+            console.log("Something went wrong while signing in")
+            throw(error)
+        }
+    }
+
+    
     // async GetById(userId) {
     //     try {
     //         const user = await this.userRepository.GetById(userId)
@@ -31,7 +54,7 @@ class UserService {
     //     }
     // }
 
-    async GenerateToken(user) {
+   GenerateToken(user) {
         try {
             const result = JWT.sign(user , JWT_KEY , { expiresIn: '1h'}) 
             return result
@@ -41,9 +64,9 @@ class UserService {
         }
     }
 
-    VerifyToken(token){
+     VerifyToken(token){
         try {
-            const response = JWT.verify(token, JWT_KEY)
+            const response =  JWT.verify(token, JWT_KEY)
             return response
         } catch (error) {
             console.log("Something went wrong while verifying the token")
