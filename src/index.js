@@ -5,7 +5,7 @@ const { PORT, JWT_KEY ,DB_SYNC} = require('./config/ServerConfig')
 const { sequelize } = require('sequelize')
 
 const APIroutes = require('./routes/index')
-// const UserRepository = require('./repository/User-repo')
+const UserRepository = require('./repository/User-repo')
 const UserService = require('./services/user-service')
 
 // const  db  = require('./models/index')

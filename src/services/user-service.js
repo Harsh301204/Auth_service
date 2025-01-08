@@ -1,8 +1,10 @@
 const JWT = require('jsonwebtoken')
 const bcrpyt = require('bcrypt')
 
+
 const UserRepository = require('../repository/User-repo')
 const { JWT_KEY } = require('../config/ServerConfig')
+const AppError = require('../utils/error-handler')
 // const { decrypt } = require('dotenv')
 
 
@@ -17,7 +19,13 @@ class UserService {
             return user
         }
         catch (error) {
+            if(error.name == 'SequelizeValidationError')
+            {
+                throw error
+            }
             console.log("There is a error in the service layer")
+            // throw new AppError('ServerError' , 'Something went Wrong in Service' , 'Logical Issue Found' , 500)
+            throw error
 
         }
 

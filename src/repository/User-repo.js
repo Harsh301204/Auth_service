@@ -1,4 +1,5 @@
-const { User , Role} = require('../models/index')
+const { User, Role } = require('../models/index')
+const validationError = require('../utils/validationError')
 
 class UserRepository {
 
@@ -7,6 +8,13 @@ class UserRepository {
             const user = await User.create(data);
             return user;
         } catch (error) {
+            if (error.name === "SequelizeValidationError") {
+
+                // let ValidationError = new validationError(error)
+                // console.log(ValidationError)
+                throw new validationError(error);
+            }
+            // console.log(error.name)
             console.log("Something went wrong in Repository Layer")
             throw error;
         }
@@ -26,10 +34,10 @@ class UserRepository {
         }
     }
 
-    async GetById(userId){
+    async GetById(userId) {
         try {
-            const user = await User.findByPk(userId , {
-                attributes: ['Email' , 'id']
+            const user = await User.findByPk(userId, {
+                attributes: ['Email', 'id']
             })
             return user
         } catch (error) {
@@ -41,8 +49,8 @@ class UserRepository {
     async GetByEmail(userEmail) {
         try {
             const user = await User.findOne({
-                where : {
-                    Email : userEmail
+                where: {
+                    Email: userEmail
                 }
             })
             return user;
@@ -51,12 +59,14 @@ class UserRepository {
         }
     }
 
-    async isAdmin(userId){
+    async isAdmin(userId) {
         try {
             const user = await User.findByPk(userId);
-            const role = await Role.findOne({where : {
-                name : 'ADMIN'
-            }}) 
+            const role = await Role.findOne({
+                where: {
+                    name: 'ADMIN'
+                }
+            })
             // console.log( user , role)
             return user.hasRole(role)
         } catch (error) {
@@ -66,4 +76,3 @@ class UserRepository {
 }
 
 module.exports = UserRepository
- 
