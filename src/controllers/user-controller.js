@@ -35,7 +35,7 @@ const create = async (req, res) => {
                 success: true
             })
         } catch (error) {
-            return res.status(500).json({
+            return res.status(error.StatusCode).json({
                 data: {},
                 success: false,
                 message: "Something went wrong",

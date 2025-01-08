@@ -1,5 +1,8 @@
-const { User, Role } = require('../models/index')
+const { User, Role } = require('../models/index');
+const ClientError = require('../utils/Client-Error');
 const validationError = require('../utils/validationError')
+const { StatusCode }  = require('http-status-codes')
+const { clientErrorCodes } = require('../utils/error-codes')
 
 class UserRepository {
 
@@ -39,6 +42,7 @@ class UserRepository {
             const user = await User.findByPk(userId, {
                 attributes: ['Email', 'id']
             })
+
             return user
         } catch (error) {
             console.log("Something went wrong in Repository Layer")
@@ -53,9 +57,22 @@ class UserRepository {
                     Email: userEmail
                 }
             })
+            // console.log(!user)
+            if (!user) {
+                throw new ClientError(
+                    "EmailNotFound",
+                    "Invalid Email sent in Request",
+                    "Email not found , Please Check Email",
+                    clientErrorCodes.NOT_FOUND
+                    
+                );
+            }
+            // console.log(user)
+
             return user;
         } catch (error) {
             console.log("something went wrong in fetching user by email")
+            throw error
         }
     }
 
