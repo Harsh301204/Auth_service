@@ -17,3 +17,7 @@ npx sequelize db:create
 npx sequelize model:generate --name User --attributes email:string,password:string
 ```
 - Now Doing some changes in model and migration file as per requirement 
+
+
+- Using sequelize triggers and bcrypt package to encrypt our password 
+- Will be doing encryption in models

@@ -77,14 +77,14 @@ class UserService {
     }
 
 
-    // async GetById(userId) {
-    //     try {
-    //         const user = await this.userRepository.GetById(userId)
-    //         return user
-    //     } catch (error) {
-    //         console.log("There is a error in the service layer")
-    //     }
-    // }
+    async GetById(userId) {
+        try {
+            const user = await this.userRepository.GetById(userId)
+            return user
+        } catch (error) {
+            console.log("There is a error in the service layer")
+        }
+    }
 
     GenerateToken(user) {
         try {

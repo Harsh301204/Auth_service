@@ -88,10 +88,26 @@ const create = async (req, res) => {
 
     }
 
+    const getUser = async (req , res) => {
+        try {
+            const result = await userService.GetById(req.body.id)
+            return res.status(200).json({
+                success : true,
+                error : {},
+                data : result,
+                message : "These are the requested User Details"
+            })
+        } catch (error) {
+            
+        }
+
+    }
+
 
 module.exports  = {
     create,
     SignIn,
     isAuthenticated,
-    isAdmin
+    isAdmin,
+    getUser
 }

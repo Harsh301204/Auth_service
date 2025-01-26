@@ -8,7 +8,7 @@ const APIroutes = require('./routes/index')
 const UserRepository = require('./repository/User-repo')
 const UserService = require('./services/user-service')
 
-// const  db  = require('./models/index')
+const  db  = require('./models/index')
 const  {User , Role }  = require('./models/index')
 
 const PrepareAndStartServer = () => {
@@ -28,10 +28,10 @@ const PrepareAndStartServer = () => {
         //     'Email' : "sdjflkj@gmail"
         // })
         // console.log("New Token is " ,newToken)
-        // if(process.env.DB_SYNC)
-        // {
-        //     db.sequelize.sync({alter : true})
-        // }
+        if(process.env.DB_SYNC)
+        {
+            db.sequelize.sync({alter : true})
+        }
         // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InNkamZsa2pAZ21haWwiLCJpYXQiOjE3MzYxNTgzMTEsImV4cCI6MTczNjE2MTkxMX0.LK0pdD6M1COz1_8ReKYVdSEcBMPL-miY0fL6Eg5P2xM'
         // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InNkamZsa2pAZ21haWwiLCJpYXQiOjE3MzYxNTk2MTUsImV4cCI6MTczNjE2MzIxNX0.jzJj7j5V-ojnZ9I2YZbQokB7vk5llmbLr8l1v3Edvj9c'
         // const res1 =  ser.VerifyToken(token)

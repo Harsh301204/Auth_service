@@ -19,4 +19,7 @@ router.get('/dummy' , (req , res) => {
     })
 })
 
+
+router.get('/user',UserController.getUser)
+
 module.exports = router
