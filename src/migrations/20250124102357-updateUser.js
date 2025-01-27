@@ -21,12 +21,9 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-    await queryInterface.changeColumn('users','Password' ,{})
+    await queryInterface.changeColumn('users', 'Password', {
+      type: Sequelize.STRING,
+      allowNull: false
+    });
   }
 };

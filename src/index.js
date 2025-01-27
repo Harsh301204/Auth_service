@@ -23,8 +23,8 @@ const PrepareAndStartServer = () => {
         // const repo = new UserRepository()
         // const res = await repo.GetById(1)
         // console.log(res)
-        // const ser = new UserService()
-        // const newToken = await ser.GenerateToken({
+        const service = new UserService()
+        // const newToken = await service.GenerateToken({
         //     'Email' : "sdjflkj@gmail"
         // })
         // console.log("New Token is " ,newToken)
@@ -37,6 +37,7 @@ const PrepareAndStartServer = () => {
         // const res1 =  ser.VerifyToken(token)
         // console.log(res1)
 
+        
         // const u1 = await User.findByPk(4);
         // const r1 = await Role.findByPk(3);
 

@@ -9,7 +9,8 @@ const UserController = require('../../controllers/user-controller')
 router.post('/signup' , AuthMiddleware.validateUserAuth , UserController.create)
 router.post('/signin' , AuthMiddleware.validateUserAuth , UserController.SignIn)
 
-router.get('/isAuthenticated' ,AuthMiddleware.ValidateisAdmin, UserController.isAuthenticated )
+// router.get('/isAuthenticated' ,AuthMiddleware.ValidateisAdmin, UserController.isAuthenticated )
+router.get('/isAuthenticated' , UserController.isAuthenticated )
 
 router.get('/isAdmin' , UserController.isAdmin)
 

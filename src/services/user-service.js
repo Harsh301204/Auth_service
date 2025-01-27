@@ -44,6 +44,7 @@ class UserService {
             }
 
             const newJWT = this.GenerateToken({ Email: user.Email, id: user.id })
+            // const response = this.VerifyToken(newJWT)
             return newJWT
 
 
