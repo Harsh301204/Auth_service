@@ -11,13 +11,14 @@ class UserRepository {
             const user = await User.create(data);
             return user;
         } catch (error) {
+            // console.log(error)
             if (error.name === "SequelizeValidationError") {
 
                 // let ValidationError = new validationError(error)
                 // console.log(ValidationError)
                 throw new validationError(error);
             }
-            // console.log(error.name)
+            // // console.log(error.name)
             console.log("Something went wrong in Repository Layer")
             throw error;
         }
@@ -71,6 +72,7 @@ class UserRepository {
 
             return user;
         } catch (error) {
+            console.log(error)
             console.log("something went wrong in fetching user by email")
             throw error
         }

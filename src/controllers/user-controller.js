@@ -1,5 +1,5 @@
 const  UserService  = require('../services/user-service')
-
+const  {StatusCodes}  = require('http-status-codes')
 const userService = new UserService()
 
 const create = async (req, res) => {
@@ -70,12 +70,23 @@ const create = async (req, res) => {
     const isAdmin = async (req , res) => {
         try {
             const result = await userService.isAdmin(req.body.id)
+            if(result)
+            {
+                
             return res.status(200).json({
                 success : true,
                 error : {},
                 data : result,
                 message : "User is Admin"
             })
+        }else{
+            return res.status(500).json({
+                data: false,
+                success: true,
+                message: "User is not a Admin",
+                err: {}
+            })
+        }
         } catch (error) {
             return res.status(500).json({
                 data: {},

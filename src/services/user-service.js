@@ -19,13 +19,12 @@ class UserService {
             return user
         }
         catch (error) {
-            if(error.name == 'SequelizeValidationError')
-            {
+            if (error.name == 'SequelizeValidationError') {
                 throw error
             }
             console.log("There is a error in the service layer")
-            // throw new AppError('ServerError' , 'Something went Wrong in Service' , 'Logical Issue Found' , 500)
-            throw error
+            throw new AppError('ServerError', 'Something went Wrong in Service', 'Logical Issue Found', 500)
+
 
         }
 
@@ -33,10 +32,11 @@ class UserService {
 
     async SignIn(email, PlainPassword) {
         try {
-            
+
             const user = await this.userRepository.GetByEmail(email)
+        
             const checkPassword = this.checkPassword(PlainPassword, user.Password)
-            
+
 
             if (!checkPassword) {
                 console.log("Password doesn't match")
@@ -50,6 +50,11 @@ class UserService {
 
 
         } catch (error) {
+            if(error.name == "EmailNotFound")
+            {
+                throw error
+            }
+               
             console.log("Something went wrong while signing in")
             throw (error)
         }
@@ -63,8 +68,8 @@ class UserService {
             }
 
             const user = await this.userRepository.GetById(response.id)
-            if(!user) {
-                throw { error : "no user with corresponding token exists"}
+            if (!user) {
+                throw { error: "no user with corresponding token exists" }
             }
 
             return user.id
@@ -116,10 +121,11 @@ class UserService {
         }
     }
 
-     isAdmin(userId){
+    isAdmin(userId) {
         try {
-            const user =  this.userRepository.isAdmin(userId)
+            const user = this.userRepository.isAdmin(userId)
             return user
+
         } catch (error) {
             console.log("something went wrong in Autherisation of Admin")
             throw (error)
